@@ -26,6 +26,7 @@ public class MainFrame {
     public ArrayList<BufferedImage> images;
     public Tileset tileset;
 
+    // TODO: 14/10/2023 Refonte de l'affichage 
     public MainFrame(String name, WindowSize windowSize) {
         // create a frame
         frame = new JFrame("TilesetMaker");
@@ -69,8 +70,7 @@ public class MainFrame {
 
         dowloadButton = new JButton("Télécharger");
         dowloadButton.setBounds(100,100,100,40);
-
-        // TODO: 13/10/2023 Faire un try catch au cas ou 'tileset' est nul 
+        
         dowloadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,7 +87,11 @@ public class MainFrame {
                         }
 
                         // Écrivez l'image dans le fichier sélectionné
-                        ImageIO.write(tileset.getTilesetImage(), "png", selectedFile);
+                        try {
+                            ImageIO.write(tileset.getTilesetImage(), "png", selectedFile);
+                        } catch (NullPointerException npe){
+                            System.out.println("La séléction est nulle");
+                        }
                     } catch (IOException ex) {
                         ex.printStackTrace();
                         // Gérez les erreurs d'écriture de fichier
